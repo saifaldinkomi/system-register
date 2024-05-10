@@ -8,7 +8,39 @@
   </head>
   <body>
     {% block content %}
-      <h1>hello in courses page</h1>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">name</th>
+            <th scope="col">description</th>
+            <th scope="col">prerequisites</th>
+            <th scope="col">instructor</th>
+            <th scope="col">capacity</th>
+            <th scope="col">roomNo</th>
+            <th scope="col">time</th>
+            <th scope="col">days</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for index in courses %}
+            <tr>
+              <td>{{ index.name }}</td>
+              <td>{{ index.description }}</td>
+              <td>{{ index.prerequisites }}</td>
+              <td>{{ index.instructor }}</td>
+              <td>{{ index.capacity }}</td>
+              <td>{{ index.scheduleId.roomNo }}</td>
+              <td>{{ index.scheduleId.startTime }}
+                {{ index.scheduleId.endTime }}</td>
+              <td>
+                {% for item in index.scheduleId.days.all %}
+                  {{ item.name }},
+                {% endfor %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     {% endblock %}
   </body>
 </html>

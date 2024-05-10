@@ -4,7 +4,11 @@ from .models import *
 def main(request):
     return render(request,"register/main.html")
 def courses(request):
-    return render(request,"register/courses.html")
+    courses=Courses.objects.all()
+    context={
+        'courses':courses
+    }
+    return render(request,"register/courses.html",context)
 def coursesSchedules(request):
     return render(request,"register/coursesSchedules.html")
 def students(request):
