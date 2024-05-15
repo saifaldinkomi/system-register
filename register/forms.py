@@ -8,7 +8,10 @@ class CourseForm(ModelForm):
     class Meta:
         model=Courses
         fields='__all__'
-
+class SchedulesForm(ModelForm):
+    class Meta:
+        model=CourseSchedules
+        fields='__all__'
 class createNewUser(UserChangeForm):
     password=forms.CharField(widget=forms.PasswordInput(),required=True)
     class Meta:

@@ -9,6 +9,7 @@ urlpatterns = [
     path('create/',views.create,name='create'),
     path('userLogin/',views.userLogin,name='login'),
     path('createCourse/',views.createCourse,name='createCourse'),
+    path('createSchedules/',views.createSchedules,name='createSchedules'),
     path('deleteCourse/<str:pk>',views.deleteCourse,name='deleteCourse'),
     path('updateCourse/<str:pk>',views.updateCourse,name='updateCourse'),
 ]

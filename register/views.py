@@ -4,12 +4,16 @@ from .models import *
 from django.forms import inlineformset_factory
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
+from .filters import *
 def main(request):
     return render(request,"register/main.html")
 def courses(request):
-    courses=Courses.objects.all()
+    courses=Courses.objects.all() 
+    searchFilter=CourseFilter(request.POST,queryset=courses)
+    courses=searchFilter.qs
     context={
-        'courses':courses
+        'courses':courses,
+        'searchFilter':searchFilter
     }
     return render(request,"register/courses.html",context)
 def coursesSchedules(request):
@@ -56,6 +60,17 @@ def createCourse(request):
         'form':form
     }
     return render(request,'register/courseForm.html',context)
+def createSchedules(request):
+    form=SchedulesForm()
+    if request.method=='POST':
+        form=SchedulesForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('createCourse')
+    context={
+        'form':form
+    }
+    return render(request,'register/scheduleForm.html',context)
 def deleteCourse(request,pk):
     course=Courses.objects.get(id=pk)
     if request.method=='POST':
