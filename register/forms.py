@@ -4,6 +4,11 @@ from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import User
 from django import forms
 
+class CourseForm(ModelForm):
+    class Meta:
+        model=Courses
+        fields='__all__'
+
 class createNewUser(UserChangeForm):
     password=forms.CharField(widget=forms.PasswordInput(),required=True)
     class Meta:

@@ -8,5 +8,7 @@ urlpatterns = [
     path('studentsReg/',views.studentsReg,name='studentsReg'),
     path('create/',views.create,name='create'),
     path('userLogin/',views.userLogin,name='login'),
-    
+    path('createCourse/',views.createCourse,name='createCourse'),
+    path('deleteCourse/<str:pk>',views.deleteCourse,name='deleteCourse'),
+    path('updateCourse/<str:pk>',views.updateCourse,name='updateCourse'),
 ]

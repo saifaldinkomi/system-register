@@ -9,6 +9,9 @@ input {
 #app {
     height: 100%;
 }
+.h-100vh{
+    height: 100vh;
+}
 
 body {
     position: relative;

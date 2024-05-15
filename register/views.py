@@ -44,5 +44,36 @@ def userLogin(request):
             return redirect('home')
         else:
             messages.info(request, 'Invalid credentials')
-    # context={}
     return render(request, 'register/login.html')
+def createCourse(request):
+    form=CourseForm()
+    if request.method=='POST':
+        form=CourseForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('courses')
+    context={
+        'form':form
+    }
+    return render(request,'register/courseForm.html',context)
+def deleteCourse(request,pk):
+    course=Courses.objects.get(id=pk)
+    if request.method=='POST':
+        course.delete()
+        return redirect('courses')
+    context={
+        'course':course
+    }
+    return render(request,'register/deleteCourse.html',context)
+def updateCourse(request,pk):
+    course=Courses.objects.get(id=pk)
+    form=CourseForm(instance=course)
+    if request.method=='POST':
+        form=CourseForm(request.POST,instance=course)
+        if form.is_valid():
+            form.save()
+            return redirect('courses')
+    context={
+        "form":form,
+        }
+    return render(request,'register/courseForm.html',context)

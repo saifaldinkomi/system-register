@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    {% extends 'register/main.html' %}
+    {% load static %}
+
+    {% block content %}
+      <div class=" bg-success" style="height: 100vh; background-color: #FFD498;">
+        <div class="text-center h-100 d-flex justify-content-center align-item-center" >
+          <form method="POST" class="p-4 border rounded d-flex flex-column justify-content-center align-item-center bg-white h-25 w-50" >
+            {% csrf_token %}
+            <h1>Are you sure you want to delete?</h1>
+            <div class="mt-4 mb-3">
+              <a href="{% url 'courses' %}" class="btn btn-danger">No</a>
+              <button type="submit" class="btn btn-primary">Yes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    {% endblock %}
+  </body>
+</html>

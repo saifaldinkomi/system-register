@@ -19,6 +19,7 @@
             <th scope="col">roomNo</th>
             <th scope="col">time</th>
             <th scope="col">days</th>
+            <th scope="col">action</th>
           </tr>
         </thead>
         <tbody>
@@ -37,11 +38,15 @@
                   {{ item.name }},
                 {% endfor %}
               </td>
+              <td>
+                <a href={% url "updateCourse" index.id %}><i  class="fa-solid fa-pen text-primary"></i></a>
+                <a href="{% url 'deleteCourse' index.id %}"><i class="fa-solid fa-trash text-danger"></i></a>
+              </td>
             </tr>
           {% endfor %}
         </tbody>
       </table>
-      <button>create course</button>
+      <a role="button" class="btn btn-success" href="{% url 'createCourse' %}">create</a>
     {% endblock %}
   </body>
 </html>
