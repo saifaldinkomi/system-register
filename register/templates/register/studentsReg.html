@@ -8,7 +8,27 @@
   </head>
   <body>
     {% block content %}
-      <h1>hello in studentsReg page</h1>
+      {{ studentsReg }}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">name</th>
+            {% comment %} <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th> {% endcomment %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% for index in studentsReg %}
+              <th scope="col">{{index.studentId.name}}</th>
+            {% endfor %}
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+        </tbody>
+      </table>
     {% endblock %}
   </body>
 </html>

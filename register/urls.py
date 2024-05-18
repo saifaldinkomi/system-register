@@ -12,4 +12,6 @@ urlpatterns = [
     path('createSchedules/',views.createSchedules,name='createSchedules'),
     path('deleteCourse/<str:pk>',views.deleteCourse,name='deleteCourse'),
     path('updateCourse/<str:pk>',views.updateCourse,name='updateCourse'),
+    path('userLogout/',views.userLogout,name='userLogout'),
+    path('profile/',views.profile,name='profile')
 ]
