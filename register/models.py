@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Day(models.Model):
@@ -26,10 +27,16 @@ class Students(models.Model):
     name=models.CharField( max_length=50,null=True)
     password=models.CharField( max_length=50,null=True)
     email=models.CharField( max_length=50,null=True)
+    user=models.OneToOneField(User, on_delete=models.CASCADE, related_name='student',null=True)
     def __str__(self):
-        return self.name
+        return self.name or self.user.username
     
 class StudentsReg(models.Model):
     studentId=models.ForeignKey(Students, on_delete=models.SET_NULL,null=True)
     courseId=models.ForeignKey(Courses,on_delete=models.SET_NULL,null=True)
-    
+     
+class News(models.Model):
+    name=models.CharField( max_length=50,null=True)
+    description=models.CharField( max_length=200,null=True)
+    def __str__(self):
+        return self.name

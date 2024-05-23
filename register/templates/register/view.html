@@ -1,0 +1,59 @@
+{% extends 'register/main.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    {% block title %}
+      Course Details
+    {% endblock %}
+
+    {% block content %}
+      <div class="details">
+        <h2>Course Details</h2>
+
+        <p>
+          <strong>Name:</strong> {{ course.name }}
+        </p>
+        <p>
+          <strong>Description:</strong> {{ course.description }}
+        </p>
+        <p>
+          <strong>Prerequisites:</strong> {{ course.prerequisites }}
+        </p>
+        <p>
+          <strong>Instructor:</strong> {{ course.instructor }}
+        </p>
+        <p>
+          <strong>Capacity:</strong> {{ studentReg }}/{{ course.capacity }}
+        </p>
+        {% if course.scheduleId %}
+          <p>
+            <strong>Room No:</strong> {{ course.scheduleId.roomNo }}
+          </p>
+          <p>
+            <strong>Days:</strong> {% for day in course.scheduleId.days.all %}
+              {{ day.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </p>
+          <p>
+            <strong>Time:</strong> {{ course.scheduleId.startTime|date:'H:i' }} - {{ course.scheduleId.endTime|date:'H:i' }}
+          </p>
+        {% else %}
+          <p>
+            <strong>Schedule:</strong> No schedule available
+          </p>
+        {% endif %}
+        <form action="{% url 'register_course' course.id  %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+        {% comment %} <button class="register-course-btn" data-course-id="{{ course.id }}" onclick="registerForCourse(this)">Register for Course</button> {% endcomment %}
+      </div>
+    {% endblock %}
+  </body>
+</html>

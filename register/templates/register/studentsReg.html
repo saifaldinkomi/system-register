@@ -1,4 +1,5 @@
 {% extends 'register/main.html' %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,27 +9,80 @@
   </head>
   <body>
     {% block content %}
-      {{ studentsReg }}
-      <table class="table">
+      
+      <h2>My Schedule</h2>
+      <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">name</th>
-            {% comment %} <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th> {% endcomment %}
+            <th>Course</th>
+            <th>Description</th>
+            <th>Instructor</th>
+            <th>Room No</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Days</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            {% for index in studentsReg %}
-              <th scope="col">{{index.studentId.name}}</th>
-            {% endfor %}
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
+          {% for reg in courses %}
+            <tr>
+              <td>{{ reg.name }}</td>
+              <td>{{ reg.description }}</td>
+              <td>{{ reg.instructor }}</td>
+              <td>{{ reg.roomNo }}</td>
+              <td>{{ reg.startTime }}</td>
+              <td>{{ reg.endTime }}</td>
+               <td>{{ reg.days}}</td>
+              <td>
+                {% for day in reg.days.all %}
+                  {{ day.name }}
+                {% endfor %}
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="7">No registered courses found.</td>
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
     {% endblock %}
   </body>
 </html>
+
+{% comment %} {% extends 'register/main.html' %} {% endcomment %}
+
+{% comment %} {% block content %}
+  <h2>My Schedule</h2>
+  {{ student_regs }}
+  {% if student_regs %}
+    <table>
+      <tr>
+        <th>Course</th>
+        <th>Description</th>
+        <th>Instructor</th>
+        <th>Room No</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Days</th>
+      </tr>
+      {% for reg in student_regs %}
+        <tr>
+          <td>{{ reg.courseId.name }}</td>
+          <td>{{ reg.courseId.description }}</td>
+          <td>{{ reg.courseId.instructor }}</td>
+          <td>{{ reg.courseId.scheduleId.roomNo }}</td>
+          <td>{{ reg.courseId.scheduleId.startTime|time:'H:i' }}</td>
+          <td>{{ reg.courseId.scheduleId.endTime|time:'H:i' }}</td>
+          <td>
+            {% for day in reg.courseId.scheduleId.days.all %}
+              {{ day.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>No registered courses found.</p>
+  {% endif %}
+{% endblock %} {% endcomment %}

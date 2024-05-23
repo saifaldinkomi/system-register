@@ -17,6 +17,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th scope="col">id</th>
         <th scope="col">Name</th>
         <th scope="col">Description</th>
         <th scope="col">Prerequisites</th>
@@ -25,12 +26,12 @@
         <th scope="col">Room No</th>
         <th scope="col">Time</th>
         <th scope="col">Days</th>
-        <th scope="col">Action</th>
       </tr>
     </thead>
     <tbody>
       {% for index in courses %}
         <tr>
+          <td>{{ index.id }}</td>
           <td>{{ index.name }}</td>
           <td>{{ index.description }}</td>
           <td>{{ index.prerequisites }}</td>
@@ -44,13 +45,10 @@
             {% endfor %}
           </td>
           <td>
-            <a href="{% url 'updateCourse' index.id %}"><i class="fa-solid fa-pen text-primary"></i></a>
-            <a href="{% url 'deleteCourse' index.id %}"><i class="fa-solid fa-trash text-danger"></i></a>
+            <a role="button" class="btn btn-success" href="{% url 'view' index.id %}">view</a>
           </td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
-
-  <a role="button" class="btn btn-success" href="{% url 'createCourse' %}">Create</a>
 {% endblock %}

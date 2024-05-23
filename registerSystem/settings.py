@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'registerSystem.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',  
+        'NAME': 'regun',  
+        'USER': 'root',  
+        'PASSWORD': '1234', 
+        'HOST': '127.0.0.1', 
+        'PORT': '3306',  
     }
 }
 
@@ -119,9 +123,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 MEDIA_URL ='/image/'
-import os
 STATICFILES_DIRS =[
-    os.path.join(BASE_DIR,'static')
+    BASE_DIR / "register/static"
 ]
 
 # Default primary key field type
