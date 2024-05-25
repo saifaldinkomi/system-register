@@ -3,5 +3,5 @@ from .models import *
 class CourseFilter(django_filters.FilterSet):
     class Meta:
         model=Courses
-        fields=['id','name']
+        fields=['id','name','instructor']
         

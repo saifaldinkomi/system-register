@@ -1,7 +1,6 @@
 from django.shortcuts import render,redirect
 from .forms  import *
 from .models import *
-from django.forms import inlineformset_factory
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import auth
 from django.contrib import messages
@@ -9,11 +8,10 @@ from .filters import *
 from django.contrib.auth.decorators import login_required
 from .decorators import *
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import get_object_or_404, render
 
-@login_required
 
+@login_required(login_url='login')
 def main(request):
     courses=Courses.objects.all() 
     searchFilter=CourseFilter(request.POST,queryset=courses)
@@ -36,7 +34,7 @@ def courses(request):
         'searchFilter':searchFilter,
     }
     return render(request,"register/courses.html",context)
-
+@login_required(login_url='login')
 def news(request):
     news=News.objects.all()
     context={
@@ -44,7 +42,7 @@ def news(request):
     }
     return render(request,"register/news.html",context)
 
-
+@login_required(login_url='login')
 def view(request, pk):
     course = get_object_or_404(Courses, id=pk)
     studentReg = StudentsReg.objects.filter(courseId=course).count()
@@ -53,49 +51,7 @@ def view(request, pk):
         'studentReg':studentReg
     }
     return render(request, 'register/view.html', context)
-    
-    
-    
-    # course=Courses.objects.get(id=pk)
-    # form=CourseForm(instance=course)
-    # if request.method=='POST':
-    #     form=CourseForm(request.POST,instance=course)
-    #     if form.is_valid():
-    #         form.save()
-    #         return redirect('courses')
-    # context={
-    #     "form":form,
-    #     }
-    # return render(request, 'register/view.html', context)
-    
-    
-    
-    
-    # courses=Courses.objects.all() 
-    # searchFilter=CourseFilter(id=pk)
-
-    # context = {
-    #     'courses': courses,
-    #     'searchFilter':searchFilter
-    # }
-    # return render(request, 'register/view.html', context)
-
-
-# def view(request, pk):
-#     course=Courses.objects.get(id=pk)
-#     context = {
-#         'course': course
-#     }
-#     return render(request, 'register/view.html', context)
-    
-    
-    #  course=Courses.objects.get(id=pk)
-    # if request.method=='POST':
-    #     course.delete()
-    #     return redirect('courses')
-    # context={
-    #     'course':course
-    # }
+   
 
 @login_required(login_url='login')
 def coursesSchedules(request):
@@ -107,19 +63,7 @@ def students(request):
         "student":student,
     }
     return render(request,"register/students.html",context)
-
-
 @login_required(login_url='login')
-# def studentsReg(request,pk):
-#     # students=studentsReg.objects.get(id=pk)
-    
-    
-#     studentsReg=StudentsReg.objects.get(studentId=pk)
-#     context={
-#         'studentsReg':studentsReg
-#     }
-#     return render(request,"register/studentsReg.html",context)
-
 def studentsReg(request,pk):
     student = Students.objects.get(id=pk)
     registrations = StudentsReg.objects.filter(studentId=pk)
@@ -164,7 +108,7 @@ def userLogin(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('courses')
+            return redirect('news')
         else:
             messages.error(request, "Invalid username or password.")
     return render(request, 'register/login.html')
@@ -183,39 +127,16 @@ def createCourse(request):
     }
     return render(request,'register/courseForm.html',context)
 
-@login_required
+@login_required(login_url='login')
 def register_course(request, course_id):
     course = get_object_or_404(Courses, id=course_id)
-    student = request.user.student  # Assuming you have a student profile linked to the User
-
-    # Check if the student is already registered
+    student = request.user.student  
     if StudentsReg.objects.filter(studentId=student, courseId=course).exists():
-        # Handle already registered case
         return render(request, 'register/studentsReg.html')
-
-    # Register the student for the course
     registration = StudentsReg(studentId=student, courseId=course)
     registration.save()
-
-    # Redirect to a new URL:
     return render(request, 'register/studentsReg.html')
 
-@login_required(login_url='login')
-
-def registerCourse(request,pk):
-    form=StudentsReg()
-    if request.mothed=='POST':
-         form=StudentsReg(request.POST)
-         if form.is_valid():
-            form.save()
-            return redirect('registerCourse')
-    context={
-        'form':form
-    }
-    return render(request,'register/registerCourse.html',context)
-
-
-@login_required(login_url='login')
 def deleteCourse(request,pk):
     course=Courses.objects.get(id=pk)
     if request.method=='POST':
@@ -248,21 +169,3 @@ def userLogout(request):
     return redirect ('login')
 
 
-@login_required(login_url='login')  
-@allowedUsers
-def profile(request):
-    return render(request,'register/profile.html')
-    
-# @login_required(login_url='login')
-# def studentSchedule(request):
-#     try:
-#         student = Students.objects.get(email=request.user.email)  # Or any other unique identifier
-#     except Students.DoesNotExist:
-#         student = None
-#         # Handle the case where no matching student is found
-
-#     student_regs = StudentsReg.objects.filter(studentId=student) if student else []
-#     context = {
-#         'student_regs': student_regs,
-#     }
-#     return render(request, 'register/student_schedule.html', context)
