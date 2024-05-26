@@ -12,6 +12,6 @@ urlpatterns = [
     path('updateCourse/<str:pk>',views.updateCourse,name='updateCourse'),
     path('userLogout/',views.userLogout,name='userLogout'),
     path('view/<int:pk>',views.view,name='view'),
-    path('studentsReg/<int:course_id>',views.register_course,name='register_course'),
+    path('register_course/<int:course_id>',views.register_course,name='register_course'),
     path('',views.news,name='news'),
 ]

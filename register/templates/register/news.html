@@ -19,10 +19,10 @@
     filter: brightness(80%);
     background-repeat: no-repeat;
     background-size: cover;'>
-        <div class="row w-100">
+        <div class="row w-100 d-flex flex-column align-content-center gap-3">
             {% for item in news %}
             <div class="col-md-4 ">
-                <div class="card bg-primary">
+                <div class="card ">
                     <div class="card-body">
                         <h5 class="card-title">{{ item.name }}</h5>
                         <p class="card-text">{{ item.description }}</p>
